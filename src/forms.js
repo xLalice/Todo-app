@@ -110,67 +110,58 @@ function createTodoForm() {
     return todoForm;
   }
   
-  // Function to create a Project form
-  function createProjectForm() {
-    const projectForm = document.createElement('form');
-  
-    // Create an input field for project title
-    const titleLabel = document.createElement('label');
-    titleLabel.textContent = 'Project Title:';
-    const titleInput = document.createElement('input');
-    titleInput.setAttribute('type', 'text');
-    titleInput.setAttribute('name', 'projectTitle');
-  
-    // Create a submit button
-    const submitButton = document.createElement('button');
-    submitButton.setAttribute('type', 'submit');
-    submitButton.textContent = 'Create Project';
-  
-    // Append input field and button to the form
-    projectForm.appendChild(titleLabel);
-    projectForm.appendChild(titleInput);
-    projectForm.appendChild(submitButton);
+function createProjectForm() {
+const projectForm = document.createElement('form');
 
-    projectForm.addEventListener("submit", projectFormHandler)
-  
-    return projectForm;
-  }
+const titleLabel = document.createElement('label');
+titleLabel.textContent = 'Project Title:';
+const titleInput = document.createElement('input');
+titleInput.setAttribute('type', 'text');
+titleInput.setAttribute('name', 'projectTitle');
 
-  function createNoteForm() {
+const submitButton = document.createElement('button');
+submitButton.setAttribute('type', 'submit');
+submitButton.textContent = 'Create Project';
+
+projectForm.appendChild(titleLabel);
+projectForm.appendChild(titleInput);
+projectForm.appendChild(submitButton);
+
+projectForm.addEventListener("submit", projectFormHandler)
+
+return projectForm;
+}
+
+function createNoteForm() {
     const noteForm = document.createElement('form');
-  
-    // Create an input field for note title
+
     const titleLabel = document.createElement('label');
     titleLabel.textContent = 'Note Title:';
     const titleInput = document.createElement('input');
     titleInput.setAttribute('type', 'text');
     titleInput.setAttribute('name', 'noteTitle');
-  
-    // Create a textarea for note details
+
     const detailsLabel = document.createElement('label');
     detailsLabel.textContent = 'Note Details:';
     const detailsTextarea = document.createElement('textarea');
     detailsTextarea.setAttribute('name', 'noteDetails');
     detailsTextarea.setAttribute('rows', '4'); // Adjust rows as needed
-  
-    // Create a submit button
+
     const submitButton = document.createElement('button');
     submitButton.setAttribute('type', 'submit');
     submitButton.textContent = 'Add Note';
-    
-  
-    // Append input fields and button to the form
+
     noteForm.appendChild(titleLabel);
     noteForm.appendChild(titleInput);
     noteForm.appendChild(detailsLabel);
     noteForm.appendChild(detailsTextarea);
     noteForm.appendChild(submitButton);
 
-    
-  
-    return noteForm;
-  }
+    noteForm.addEventListener("submit", noteFormHandler)
 
+    return noteForm;
+}
+    
 function todoFormHandler(event){
     event.preventDefault()
     const title = event.target.todoTitle.value;
@@ -178,7 +169,7 @@ function todoFormHandler(event){
     const dueDate = event.target.todoDueDate.value;
     const priority = event.target.todoPriority.value;
     const project = event.target.todoProject.value;
-  
+
     addTodo(title, description, dueDate,priority, 1)
 
     event.target.reset();
@@ -191,5 +182,12 @@ function projectFormHandler(event){
   event.target.reset();
 }
 
+function noteFormHandler(event){
+  event.preventDefault()
+  const title = event.target.noteTitle.value;
+  const details = event.target.noteDetail.value;
+  addProject(title, details)
+  event.target.reset();
+}
+
 export default modal;
-  

@@ -1,5 +1,6 @@
 import Logo from "./assets/logo.png";
 import modal from "./forms";
+import {displayTodos, toggleProjectDisplay} from "./displayTodo";
 
 const content = document.querySelector("#content")
 
@@ -18,12 +19,19 @@ function setSidebar(){
     const home = document.createElement("div")
     home.classList.add("sidebar__item")
     home.textContent = "Home"
+    home.addEventListener("click", () => displayTodos())
     const projects = document.createElement("div")
     projects.classList.add("sidebar__item")
     projects.textContent = "Projects"
+    projects.addEventListener("click", toggleProjectDisplay)
+    const projectsDiv = document.createElement("div")
+    projectsDiv.classList.add("projectsDiv")
+
+
     const notes = document.createElement("div")
     notes.classList.add("sidebar__item")
     notes.textContent = "Notes"
+
 
     const addButton = document.createElement("button")
     addButton.classList.add("addButton")
@@ -32,6 +40,7 @@ function setSidebar(){
 
     sidebar.appendChild(home)
     sidebar.appendChild(projects)
+    sidebar.appendChild(projectsDiv)
     sidebar.appendChild(notes)
     sidebar.appendChild(addButton)
     
@@ -52,6 +61,8 @@ function firstLoad(){
     setNav()
     setSidebar()
     setTodoDisplay()
+    displayTodos()
+    displayProjects()
 }
 
 export {firstLoad};
