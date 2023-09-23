@@ -1,3 +1,5 @@
+import { addTodo, addProject } from "./crud"
+
 function modal(){
     const modal = document.createElement("dialog")
 
@@ -102,6 +104,8 @@ function createTodoForm() {
     todoForm.appendChild(projectLabel);
     todoForm.appendChild(projectInput);
     todoForm.appendChild(submitButton);
+
+    todoForm.addEventListener("submit", todoFormHandler)
   
     return todoForm;
   }
@@ -126,6 +130,8 @@ function createTodoForm() {
     projectForm.appendChild(titleLabel);
     projectForm.appendChild(titleInput);
     projectForm.appendChild(submitButton);
+
+    projectForm.addEventListener("submit", projectFormHandler)
   
     return projectForm;
   }
@@ -151,6 +157,7 @@ function createTodoForm() {
     const submitButton = document.createElement('button');
     submitButton.setAttribute('type', 'submit');
     submitButton.textContent = 'Add Note';
+    
   
     // Append input fields and button to the form
     noteForm.appendChild(titleLabel);
@@ -158,9 +165,31 @@ function createTodoForm() {
     noteForm.appendChild(detailsLabel);
     noteForm.appendChild(detailsTextarea);
     noteForm.appendChild(submitButton);
+
+    
   
     return noteForm;
   }
+
+function todoFormHandler(event){
+    event.preventDefault()
+    const title = event.target.todoTitle.value;
+    const description = event.target.todoDescription.value;
+    const dueDate = event.target.todoDueDate.value;
+    const priority = event.target.todoPriority.value;
+    const project = event.target.todoProject.value;
+  
+    addTodo(title, description, dueDate,priority, 1)
+
+    event.target.reset();
+}
+
+function projectFormHandler(event){
+  event.preventDefault()
+  const title = event.target.projectTitle.value;
+  addProject(title)
+  event.target.reset();
+}
 
 export default modal;
   
