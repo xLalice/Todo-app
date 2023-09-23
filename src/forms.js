@@ -1,4 +1,6 @@
-import { addTodo, addProject } from "./crud"
+import { addTodo, addProject, addNote } from "./crud"
+import { displayProjects, displayTodos, toggleProjectDisplay } from "./displayTodo"
+import { projects } from "./data"
 
 function modal(){
     const modal = document.createElement("dialog")
@@ -34,18 +36,24 @@ function modal(){
 }
 
 function openModal(node){
+    
     node.showModal()
 }
 
-function closeModal(node){
-    node.remove()
+function closeModal(){
+    const modal = document.querySelector("dialog")
+    modal.remove()
 }
 
 function emptyDiv(node) {
     if (node) {
       node.innerHTML = '';
     }
-  }
+}
+
+function getProjectNames(){
+  return projects.map(project => project.name)
+}
 
 
 function createTodoForm() {
@@ -83,8 +91,15 @@ function createTodoForm() {
   
     const projectLabel = document.createElement('label');
     projectLabel.textContent = 'Project:';
-    const projectInput = document.createElement('input');
-    projectInput.setAttribute('type', 'text');
+    const projectInput = document.createElement('select');
+    const projectOptions = getProjectNames()
+
+    for (const option of projectOptions) {
+      const optionElement = document.createElement('option');
+      optionElement.textContent = option;
+      projectInput.appendChild(optionElement);
+    }
+
     projectInput.setAttribute('name', 'todoProject');
   
     // Create a submit button
@@ -108,28 +123,28 @@ function createTodoForm() {
     todoForm.addEventListener("submit", todoFormHandler)
   
     return todoForm;
-  }
+}
   
 function createProjectForm() {
-const projectForm = document.createElement('form');
+    const projectForm = document.createElement('form');
 
-const titleLabel = document.createElement('label');
-titleLabel.textContent = 'Project Title:';
-const titleInput = document.createElement('input');
-titleInput.setAttribute('type', 'text');
-titleInput.setAttribute('name', 'projectTitle');
+    const titleLabel = document.createElement('label');
+    titleLabel.textContent = 'Project Title:';
+    const titleInput = document.createElement('input');
+    titleInput.setAttribute('type', 'text');
+    titleInput.setAttribute('name', 'projectTitle');
 
-const submitButton = document.createElement('button');
-submitButton.setAttribute('type', 'submit');
-submitButton.textContent = 'Create Project';
+    const submitButton = document.createElement('button');
+    submitButton.setAttribute('type', 'submit');
+    submitButton.textContent = 'Create Project';
 
-projectForm.appendChild(titleLabel);
-projectForm.appendChild(titleInput);
-projectForm.appendChild(submitButton);
+    projectForm.appendChild(titleLabel);
+    projectForm.appendChild(titleInput);
+    projectForm.appendChild(submitButton);
 
-projectForm.addEventListener("submit", projectFormHandler)
+    projectForm.addEventListener("submit", projectFormHandler)
 
-return projectForm;
+    return projectForm;
 }
 
 function createNoteForm() {
@@ -168,26 +183,31 @@ function todoFormHandler(event){
     const description = event.target.todoDescription.value;
     const dueDate = event.target.todoDueDate.value;
     const priority = event.target.todoPriority.value;
-    const project = event.target.todoProject.value;
+    const projectName = event.target.todoProject.value;
 
-    addTodo(title, description, dueDate,priority, 1)
+    addTodo(title, description, dueDate,priority, projectName)
+    displayTodos(projectName)
 
     event.target.reset();
+    closeModal()
 }
 
 function projectFormHandler(event){
   event.preventDefault()
   const title = event.target.projectTitle.value;
   addProject(title)
+  displayProjects()
   event.target.reset();
+  closeModal()
 }
 
 function noteFormHandler(event){
   event.preventDefault()
   const title = event.target.noteTitle.value;
   const details = event.target.noteDetail.value;
-  addProject(title, details)
+  addNote(title, details)
   event.target.reset();
+  closeModal()
 }
 
-export default modal;
+export {modal, openModal, closeModal};

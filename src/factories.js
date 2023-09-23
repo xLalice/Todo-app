@@ -37,4 +37,4 @@ function generateUniqueId() {
     return uniqueId;
 }
 
-export {TodoFactory, ProjectFactory}
+export {TodoFactory, ProjectFactory, NoteFactory}

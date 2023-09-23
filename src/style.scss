@@ -68,6 +68,7 @@ nav {
     font-size: 2rem;
     font-weight: 800;
     border: none;
+    background-color: #00ADB5;
 }
 
 .todo-card {
@@ -76,10 +77,36 @@ nav {
     gap: 10px;
     background-color: #b3b3b3;
     padding: 20px;
+    cursor: pointer;
 
     & > h1 {
         font-size: 1.5rem;
         margin-right: auto;
 
     }
+
+    & > button {
+        color: white;
+        background-color: #00ADB5;
+        border: none;
+        padding: 5px;
+    }
+}
+
+.note-card {
+    background-color: #b3b3b3;
+    padding: 25px;
+}
+
+.details__modal {
+    min-width: 100px;
+    min-height: 100px;
+    position: relative;
+    padding: 30px;
+}
+
+.details__close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }

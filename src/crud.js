@@ -1,5 +1,5 @@
-import { TodoFactory, ProjectFactory } from "./factories";
-import projects from "./data";
+import { TodoFactory, ProjectFactory, NoteFactory } from "./factories";
+import {projects, notes} from "./data";
 
 function addTodo(title,description,dueDate,priority, projectId = 1){
     const todo = TodoFactory(title, description, dueDate, priority)
@@ -7,7 +7,6 @@ function addTodo(title,description,dueDate,priority, projectId = 1){
     projects.forEach(project => {
         if (project.id === projectId){
             project["todos"].push(todo)
-            console.log(project)
         }
     })
 }
@@ -28,7 +27,11 @@ function removeTodo(todoId, projectId){
 
 function addProject(name){
     projects.push(ProjectFactory(name))
-    console.table(projects)
 }
 
-export {addTodo, addProject, removeTodo}
+function addNote(title, details){
+    const note = NoteFactory(title, details)
+    notes.push(note)
+}
+
+export {addTodo, addProject, addNote, removeTodo}

@@ -1,6 +1,6 @@
 import Logo from "./assets/logo.png";
-import modal from "./forms";
-import {displayTodos, toggleProjectDisplay} from "./displayTodo";
+import {modal} from "./forms";
+import {displayTodos, toggleProjectDisplay, displayNotes, displayProjects} from "./displayTodo";
 
 const content = document.querySelector("#content")
 
@@ -19,7 +19,7 @@ function setSidebar(){
     const home = document.createElement("div")
     home.classList.add("sidebar__item")
     home.textContent = "Home"
-    home.addEventListener("click", () => displayTodos())
+    home.addEventListener("click", () => displayTodos("Default"))
     const projects = document.createElement("div")
     projects.classList.add("sidebar__item")
     projects.textContent = "Projects"
@@ -31,6 +31,7 @@ function setSidebar(){
     const notes = document.createElement("div")
     notes.classList.add("sidebar__item")
     notes.textContent = "Notes"
+    notes.addEventListener("click", displayNotes)
 
 
     const addButton = document.createElement("button")
