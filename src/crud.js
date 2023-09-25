@@ -1,5 +1,6 @@
 import { TodoFactory, ProjectFactory, NoteFactory } from "./factories";
 import {projects, notes} from "./data";
+import { updateTodoUI } from "./displayTodo";
 
 function addTodo(title,description,dueDate,priority, projectId = 1){
     const todo = TodoFactory(title, description, dueDate, priority)
@@ -25,6 +26,22 @@ function removeTodo(todoId, projectId){
     
 }
 
+function toggleTodoStatus(projectId, todoId) {
+    const project = projects.find(project => project.id === projectId);
+
+    if (project) {
+        const todo = project.todos.find(todo => todo.id === todoId);
+
+        if (todo) {
+            todo.completed = !todo.completed;
+            updateTodoUI(todoId); 
+            console.log(todo)
+            return todo.completed;
+        }
+    }
+    return false;
+}
+
 function addProject(name){
     projects.push(ProjectFactory(name))
 }
@@ -34,4 +51,6 @@ function addNote(title, details){
     notes.push(note)
 }
 
-export {addTodo, addProject, addNote, removeTodo}
+
+
+export {addTodo, addProject, addNote, removeTodo, toggleTodoStatus}

@@ -1,5 +1,7 @@
+import TrashIcon from "./assets/delete.png"
 import {projects, notes} from "./data";
 import { openModal, closeModal } from "./forms";
+import { toggleTodoStatus, removeTodo} from "./crud";
 
 let projectsDisplayed = false;
 
@@ -24,33 +26,65 @@ function detailsModal(details){
     openModal(modal)
 }
 
-function displayTodos(projectName){
-    const todoDisplay = document.querySelector(".todoDisplay")
-    emptyDiv(todoDisplay)
+function displayTodos(projectName) {
+    const todoDisplay = document.querySelector(".todoDisplay");
+    emptyDiv(todoDisplay);
+
     projects.forEach(project => {
-        if (project.name=== projectName){
-            project["todos"].forEach(item => {
-                const card = document.createElement("div")
-                card.classList.add("todo-card")
+        if (project.name === projectName) {
+            project.todos.forEach(item => {
+                const card = document.createElement("div");
+                card.classList.add("todo-card");
+                card.dataset.todoId = item.id;
+
+                // Create a label element to wrap the content and checkbox
+                const label = document.createElement("label");
 
                 const content = `
-                    <input type="checkbox">
                     <h1>${item.title}</h1>
                     <p>${item.dueDate}</p>
-                `
+                `;
 
-                const detailsButton = document.createElement("button")
-                detailsButton.textContent = "Details"
-                detailsButton.addEventListener("click", () => detailsModal(item.description))
-            
-                card.innerHTML = content
-                card.appendChild(detailsButton)
+                const detailsButton = document.createElement("button");
+                detailsButton.textContent = "Details";
+                detailsButton.addEventListener("click", () => detailsModal(item.description));
 
-                todoDisplay.appendChild(card)
-            })
+                const completeCheckbox = document.createElement("input");
+                completeCheckbox.type = "checkbox";
+                completeCheckbox.classList.add("todo-checkbox");
+                completeCheckbox.id = `checkbox-${item.id}`;
+                label.htmlFor = `checkbox-${item.id}`;
+                label.addEventListener("click", () => {
+                    completeCheckbox.checked = !completeCheckbox.checked;
+                    toggleTodoStatus(project.id, item.id);
+                });
+
+                const deleteButton = document.createElement("button")
+                deleteButton.classList.add("delete-button");
+                const deleteIcon = new Image()
+                deleteIcon.src = TrashIcon
+
+                deleteButton.addEventListener("click", () => {
+                    removeTodo(item.id, project.id);
+                    card.remove();
+                });
+
+                deleteButton.appendChild(deleteIcon);
+
+
+                label.appendChild(completeCheckbox);
+                label.innerHTML += content;
+                label.appendChild(detailsButton);
+                label.appendChild(deleteButton)
+
+                card.appendChild(label);
+
+                todoDisplay.appendChild(card);
+            });
         }
-    })
+    });
 }
+
 
 function toggleProjectDisplay(){
     projectsDisplayed = !projectsDisplayed
@@ -98,4 +132,22 @@ function emptyDiv(node){
     node.innerHTML = ""
 }
 
-export {toggleProjectDisplay, displayTodos, displayNotes, displayProjects}
+function updateTodoUI(todoId) {
+    const todoElements = document.querySelectorAll(".todo-card");
+
+    todoElements.forEach(todoElement => {
+        const id = todoElement.dataset.todoId // Assuming you have a data attribute to store the todo id
+        if (id === todoId) {
+            const checkbox = todoElement.querySelector(".todo-checkbox");
+            const isCompleted = checkbox.checked;
+
+            if (isCompleted) {
+                todoElement.classList.add('done'); // Add a CSS class for styling
+            } else {
+                todoElement.classList.remove('done'); // Remove the "done" styling
+            }
+        }
+    });
+}
+
+export {toggleProjectDisplay, displayTodos, displayNotes, displayProjects, updateTodoUI}

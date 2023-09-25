@@ -62,7 +62,7 @@ function firstLoad(){
     setNav()
     setSidebar()
     setTodoDisplay()
-    displayTodos()
+    displayTodos("Default")
     displayProjects()
 }
 

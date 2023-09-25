@@ -7,7 +7,7 @@ function TodoFactory(title, description, dueDate, priority, projectId){
         dueDate,
         priority,
         projectId,
-        completed: "false"
+        completed: false
     }
 }
 
