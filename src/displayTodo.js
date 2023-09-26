@@ -35,7 +35,9 @@ function displayTodos(projectName) {
             project.todos.forEach(item => {
                 const card = document.createElement("div");
                 card.classList.add("todo-card");
-                card.dataset.todoId = item.id;
+                card.classList.add(item.priority.toLowerCase())
+                card.id = `todo-${item.id}`;
+                card.setAttribute('data-priority', item.priority.toLowerCase());
 
                 // Create a label element to wrap the content and checkbox
                 const label = document.createElement("label");
@@ -47,14 +49,16 @@ function displayTodos(projectName) {
 
                 const detailsButton = document.createElement("button");
                 detailsButton.textContent = "Details";
+                detailsButton.classList.add("details-button")
                 detailsButton.addEventListener("click", () => detailsModal(item.description));
 
                 const completeCheckbox = document.createElement("input");
                 completeCheckbox.type = "checkbox";
                 completeCheckbox.classList.add("todo-checkbox");
                 completeCheckbox.id = `checkbox-${item.id}`;
+
                 label.htmlFor = `checkbox-${item.id}`;
-                label.addEventListener("click", () => {
+                label.addEventListener("change", (event) => {
                     completeCheckbox.checked = !completeCheckbox.checked;
                     toggleTodoStatus(project.id, item.id);
                 });
@@ -64,7 +68,8 @@ function displayTodos(projectName) {
                 const deleteIcon = new Image()
                 deleteIcon.src = TrashIcon
 
-                deleteButton.addEventListener("click", () => {
+                deleteButton.addEventListener("click", (event) => {
+                    event.stopPropagation();
                     removeTodo(item.id, project.id);
                     card.remove();
                 });
@@ -133,21 +138,29 @@ function emptyDiv(node){
 }
 
 function updateTodoUI(todoId) {
-    const todoElements = document.querySelectorAll(".todo-card");
-
-    todoElements.forEach(todoElement => {
-        const id = todoElement.dataset.todoId // Assuming you have a data attribute to store the todo id
-        if (id === todoId) {
-            const checkbox = todoElement.querySelector(".todo-checkbox");
-            const isCompleted = checkbox.checked;
-
-            if (isCompleted) {
-                todoElement.classList.add('done'); // Add a CSS class for styling
-            } else {
-                todoElement.classList.remove('done'); // Remove the "done" styling
-            }
+    const todoElement = document.getElementById(`todo-${todoId}`);
+  
+    if (todoElement) {
+      let todoItem = null;
+  
+      const project = projects.find(project => project.todos.some(todo => todo.id === todoId));
+        console.log(project)
+      if (project) {
+        todoItem = project.todos.find(todo => todo.id === todoId);
+      }
+  
+      if (todoItem) {
+        if (todoItem.completed) {
+          todoElement.classList.add('done');
+        } else {
+          todoElement.classList.remove('done');
         }
-    });
+        }
+    }
+    else {
+        console.log("Not Found")
+    }
 }
+
 
 export {toggleProjectDisplay, displayTodos, displayNotes, displayProjects, updateTodoUI}

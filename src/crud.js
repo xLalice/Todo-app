@@ -35,11 +35,9 @@ function toggleTodoStatus(projectId, todoId) {
         if (todo) {
             todo.completed = !todo.completed;
             updateTodoUI(todoId); 
-            console.log(todo)
-            return todo.completed;
+            
         }
     }
-    return false;
 }
 
 function addProject(name){
