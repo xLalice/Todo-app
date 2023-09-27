@@ -1,6 +1,7 @@
 import TrashIcon from "./assets/delete.png"
+import EditIcon from "./assets/edit.png"
 import {projects, notes} from "./data";
-import { openModal, closeModal } from "./forms";
+import { openModal, closeModal, editForm } from "./forms";
 import { toggleTodoStatus, removeTodo} from "./crud";
 
 let projectsDisplayed = false;
@@ -33,6 +34,7 @@ function displayTodos(projectName) {
     projects.forEach(project => {
         if (project.name === projectName) {
             project.todos.forEach(item => {
+                console.log(item.id)
                 const card = document.createElement("div");
                 card.classList.add("todo-card");
                 card.classList.add(item.priority.toLowerCase())
@@ -63,6 +65,14 @@ function displayTodos(projectName) {
                     toggleTodoStatus(project.id, item.id);
                 });
 
+                const editButton = document.createElement("button");
+                editButton.classList.add("edit-button");
+                const editIcon = new Image();
+                editIcon.src = EditIcon
+                editButton.appendChild(editIcon)
+                editButton.addEventListener("click", () => editForm(item.id));
+                
+
                 const deleteButton = document.createElement("button")
                 deleteButton.classList.add("delete-button");
                 const deleteIcon = new Image()
@@ -80,7 +90,9 @@ function displayTodos(projectName) {
                 label.appendChild(completeCheckbox);
                 label.innerHTML += content;
                 label.appendChild(detailsButton);
+                label.appendChild(editButton);
                 label.appendChild(deleteButton)
+                
 
                 card.appendChild(label);
 
@@ -96,12 +108,12 @@ function toggleProjectDisplay(){
     if (projectsDisplayed){
         displayProjects()
     } else {
-        emptyDiv(document.querySelector(".projectsDiv"))
+        emptyDiv(document.querySelector(".sidebar__projects"))
     }
 }
 
 function displayProjects(){
-    const projectsDiv = document.querySelector(".projectsDiv")
+    const projectsDiv = document.querySelector(".sidebar__projects")
     emptyDiv(projectsDiv)
     projects.forEach(project => {
         if (project.id === 1){
@@ -144,7 +156,6 @@ function updateTodoUI(todoId) {
       let todoItem = null;
   
       const project = projects.find(project => project.todos.some(todo => todo.id === todoId));
-        console.log(project)
       if (project) {
         todoItem = project.todos.find(todo => todo.id === todoId);
       }
@@ -161,6 +172,7 @@ function updateTodoUI(todoId) {
         console.log("Not Found")
     }
 }
+
 
 
 export {toggleProjectDisplay, displayTodos, displayNotes, displayProjects, updateTodoUI}

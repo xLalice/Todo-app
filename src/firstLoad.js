@@ -25,7 +25,7 @@ function setSidebar(){
     projects.textContent = "Projects"
     projects.addEventListener("click", toggleProjectDisplay)
     const projectsDiv = document.createElement("div")
-    projectsDiv.classList.add("projectsDiv")
+    projectsDiv.classList.add("sidebar__projects")
 
 
     const notes = document.createElement("div")

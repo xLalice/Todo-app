@@ -2,12 +2,28 @@ import { TodoFactory, ProjectFactory, NoteFactory } from "./factories";
 import {projects, notes} from "./data";
 import { updateTodoUI } from "./displayTodo";
 
-function addTodo(title,description,dueDate,priority, projectId = 1){
+function addTodo(title,description,dueDate,priority, projectName = "Default"){
     const todo = TodoFactory(title, description, dueDate, priority)
 
     projects.forEach(project => {
-        if (project.id === projectId){
+        if (project.name === projectName){
             project["todos"].push(todo)
+        }
+    })
+}
+
+function updateTodo(todoId, title,description,dueDate,priority, projectName){
+    projects.forEach(project => {
+        if (projectName === project.name){
+            project.todos.forEach(todo => {
+                if (todo.id === todoId){
+                    todo.title = title
+                    todo.description = description
+                    todo.dueDate = dueDate
+                    todo.priority = priority
+                    todo.projectId = project.id
+                }
+            })
         }
     })
 }
@@ -49,6 +65,22 @@ function addNote(title, details){
     notes.push(note)
 }
 
+function findTodoById(todoId){
+    let todoItem = null;
+
+    projects.forEach(project => {
+        project.todos.forEach(todo => {
+            if (todo.id === todoId){
+                todoItem = todo;
+            } else {
+                console.log(`${todoId} is not equal to ${todo.id}`)
+            }
+        })
+    })
+    
+    return todoItem;
+}
 
 
-export {addTodo, addProject, addNote, removeTodo, toggleTodoStatus}
+
+export {addTodo, addProject, addNote, removeTodo, toggleTodoStatus, findTodoById, updateTodo}
