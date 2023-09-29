@@ -1,6 +1,6 @@
 import { TodoFactory } from "./factories";
 
-const projects = [
+let projects = [
     {
         id: 1,
         name: "Default",
@@ -30,7 +30,7 @@ const projects = [
     }
 ];
 
-const notes = [
+let notes = [
     {
         title: "Note 1",
         details: "This is the first dummy note. It has some details."
@@ -45,4 +45,30 @@ const notes = [
     }
 ]
 
-export {projects, notes};
+function saveDataToLocal(){
+    if (typeof Storage !== 'undefined') {
+        localStorage.setItem('projects', JSON.stringify(projects))
+        localStorage.setItem('notes', JSON.stringify(notes))
+    } else {
+        console.log('No Local Storage')
+    }
+}
+
+function loadDataFromLocal(){
+    if (typeof Storage !== 'undefined') {
+        const savedProjects = localStorage.getItem('projects');
+        const savedNotes = localStorage.getItem('notes');
+
+        if (savedProjects){
+            projects = JSON.parse(savedProjects);
+        }
+
+        if (savedNotes){
+            notes = JSON.parse(savedNotes);
+        }
+    } else {
+        console.log('No Local Storage')
+    }
+}
+
+export {projects, notes, saveDataToLocal, loadDataFromLocal};

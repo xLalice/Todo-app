@@ -1,5 +1,5 @@
 import { TodoFactory, ProjectFactory, NoteFactory } from "./factories";
-import {projects, notes} from "./data";
+import {projects, notes, saveDataToLocal} from "./data";
 import { updateTodoUI } from "./displayTodo";
 
 function addTodo(title,description,dueDate,priority, projectName = "Default"){
@@ -10,6 +10,7 @@ function addTodo(title,description,dueDate,priority, projectName = "Default"){
             project["todos"].push(todo)
         }
     })
+    saveDataToLocal()
 }
 
 function updateTodo(todoId, title,description,dueDate,priority, projectName){
@@ -26,6 +27,7 @@ function updateTodo(todoId, title,description,dueDate,priority, projectName){
             })
         }
     })
+    saveDataToLocal()
 }
 
 function removeTodo(todoId, projectId){
@@ -40,6 +42,7 @@ function removeTodo(todoId, projectId){
         
     })
     
+    saveDataToLocal()
 }
 
 function toggleTodoStatus(projectId, todoId) {
@@ -54,15 +57,19 @@ function toggleTodoStatus(projectId, todoId) {
             
         }
     }
+
+    saveDataToLocal()
 }
 
 function addProject(name){
     projects.push(ProjectFactory(name))
+    saveDataToLocal()
 }
 
 function addNote(title, details){
     const note = NoteFactory(title, details)
     notes.push(note)
+    saveDataToLocal()
 }
 
 function findTodoById(todoId){

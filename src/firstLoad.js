@@ -1,6 +1,7 @@
 import Logo from "./assets/logo.png";
 import {modal} from "./forms";
 import {displayTodos, toggleProjectDisplay, displayNotes, displayProjects} from "./displayTodo";
+import { loadDataFromLocal } from "./data";
 
 const content = document.querySelector("#content")
 
@@ -59,6 +60,7 @@ function setTodoDisplay(){
 
 
 function firstLoad(){
+    loadDataFromLocal()
     setNav()
     setSidebar()
     setTodoDisplay()

@@ -3,8 +3,26 @@ import EditIcon from "./assets/edit.png"
 import {projects, notes} from "./data";
 import { openModal, closeModal, editForm } from "./forms";
 import { toggleTodoStatus, removeTodo} from "./crud";
+import formatDate from "./date";
 
 let projectsDisplayed = false;
+
+function getOrdinalSuffix(day) {
+    if (day >= 11 && day <= 13) {
+      return 'th';
+    } else {
+      switch (day % 10) {
+        case 1:
+          return 'st';
+        case 2:
+          return 'nd';
+        case 3:
+          return 'rd';
+        default:
+          return 'th';
+      }
+    }
+  }
 
 function detailsModal(details){
     const content = document.querySelector("#content")
@@ -34,7 +52,6 @@ function displayTodos(projectName) {
     projects.forEach(project => {
         if (project.name === projectName) {
             project.todos.forEach(item => {
-                console.log(item.id)
                 const card = document.createElement("div");
                 card.classList.add("todo-card");
                 card.classList.add(item.priority.toLowerCase())
@@ -43,10 +60,9 @@ function displayTodos(projectName) {
 
                 // Create a label element to wrap the content and checkbox
                 const label = document.createElement("label");
-
                 const content = `
                     <h1>${item.title}</h1>
-                    <p>${item.dueDate}</p>
+                    <p>In ${formatDate(item.dueDate)}</p>
                 `;
 
                 const detailsButton = document.createElement("button");
