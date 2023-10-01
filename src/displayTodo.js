@@ -87,7 +87,6 @@ function displayTodos(projectName) {
         card.id = `todo-${item.id}`;
         card.setAttribute('data-priority', item.priority.toLowerCase());
 
-        // Create a label element to wrap the content and checkbox
         const label = document.createElement('label');
         const content = `
                     <h1>${item.title}</h1>
@@ -105,6 +104,9 @@ function displayTodos(projectName) {
         completeCheckbox.type = 'checkbox';
         completeCheckbox.classList.add('todo-checkbox');
         completeCheckbox.id = `checkbox-${item.id}`;
+        completeCheckbox.addEventListener('click', () => {
+          toggleTodoStatus(project.id, item.id)
+        })
 
         label.htmlFor = `checkbox-${item.id}`;
         label.addEventListener('change', event => {
