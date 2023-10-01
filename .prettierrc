@@ -1,0 +1,12 @@
+{
+    "semi": true,          # Add semicolons at the end of statements
+    "singleQuote": true,   # Use single quotes instead of double quotes for strings
+    "printWidth": 80,      # Maximum line length
+    "tabWidth": 2,         # Number of spaces per tab
+    "useTabs": false,      # Use spaces instead of tabs
+    "trailingComma": "es5",# Add trailing commas for multiline objects and arrays
+    "bracketSpacing": true,# Add spaces inside object literals
+    "jsxBracketSameLine": false, # Place the closing bracket of JSX elements on a new line
+    "arrowParens": "avoid" # Omit parentheses around a sole arrow function parameter
+  }
+  

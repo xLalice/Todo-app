@@ -1,4 +1,6 @@
 const path = require('path');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: "development",
@@ -30,4 +32,11 @@ module.exports = {
     ],
     
   },
+  plugins: [
+    new FaviconsWebpackPlugin('./src/assets/favicon.png'),
+    new HtmlWebpackPlugin({
+        title: "TaskMaster",
+        template: "./src/index.html"
+    })
+  ]
 };
